@@ -66,7 +66,7 @@ Or you can just setup all and start the server directly according your operating
 ## About Cloudflared Tunneling
 It's just optional feature where your CCTV+YOLO is hosted to the internet for free, here is you can setup the tunnel authentication through this [DOC](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-local-tunnel/). Therefore you can retrieve information about your CF authentication so that you can put it into `.env` file.
 
-> **Note:** If you cloned this repo, **you don't need** download or install `cloudflared` since it already downloaded in binary preinstalled in `bin/` folder.
+> **Note:** If you cloned this repo, **you don't need** download or install `cloudflared` since it's already downloaded in binary preinstalled in `bin/` folder.
 
 
 ## Support
