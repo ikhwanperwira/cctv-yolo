@@ -1,0 +1,1 @@
+.\bin\cloudflared-windows-amd64.exe tunnel --config .\.cloudflared\cf-config.yaml run

@@ -1,0 +1,24 @@
+{
+  "pylint.cwd": "${workspaceFolder}/src",
+  "pylint.importStrategy": "fromEnvironment",
+  "python.analysis.typeCheckingMode": "off",
+  "autopep8.args": [
+    "--indent-size", "2",
+    "--max-line-length", "180",
+    "--tab-size", "2"
+  ],
+  "pylint.args": [
+    "--max-line-length=180",
+    "--indent-string='  '",
+    "--disable=maybe-no-member, relative-beyond-top-level"
+  ],
+  "[python]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "python.analysis.autoImportCompletions": true,
+}
