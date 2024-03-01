@@ -2,3 +2,4 @@ opencv-python
 pygrabber
 python-dotenv
 flask
+PyYaml

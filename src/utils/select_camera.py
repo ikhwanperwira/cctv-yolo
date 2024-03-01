@@ -79,12 +79,13 @@ class CameraSelector:
     if dev_len == self.last_dev_len:
       return False
 
+    self.last_dev_len = dev_len
+
     if dev_len == 0:
       logger.error("No cameras found")
       raise ValueError("No cameras found")
 
     logger.warning("Devices status changed, new devices: %s", self.devices)
-    self.last_dev_len = dev_len
     return True
 
   def get_video_capture(self) -> cv.VideoCapture:

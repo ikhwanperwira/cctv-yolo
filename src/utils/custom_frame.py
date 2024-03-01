@@ -32,9 +32,9 @@ def add_datetime_with_border(frame, current_time) -> np.ndarray:
   current_datetime: str = strftime("%Y-%b-%d %H:%M:%S UTC%z", localtime(current_time))
 
   # Add border
-  cv2.putText(frame, current_datetime, (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2, cv2.LINE_AA)
+  cv2.putText(frame, current_datetime, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.1, (0, 0, 0), 3, cv2.LINE_AA)
   # Add text on top of the border
-  cv2.putText(frame, current_datetime, (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1, cv2.LINE_AA)
+  cv2.putText(frame, current_datetime, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.1, (0, 255, 255), 1, cv2.LINE_AA)
 
   return frame
 
@@ -79,17 +79,27 @@ def perform_object_detection(frame, classes, net, yologger: YOLogger) -> tuple:
         boxes.append([left, top, width, height])
 
   # Apply non-maximum suppression
-  indices: Any = cv2.dnn.NMSBoxes(boxes, confidences, 0.33, 0.3)
+  indices: Any = cv2.dnn.NMSBoxes(boxes, confidences, 0.2, 0.3)
 
   # Draw bounding boxes and labels
   is_update: bool = False
   if len(indices) > 0:
     for i in indices.flatten():
       x, y, w, h = boxes[i]
-      label: Any = classes[class_ids[i]]
+      label: Any = classes[class_ids[i]].replace(' ','').upper()
       confidence = confidences[i]
-      cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-      cv2.putText(frame, f"{label}: {confidence:.2f}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+      if confidence < 0.5:
+        color = (0, 255, 0)
+      elif confidence < 0.75:
+        color = (0, 255, 255)
+      else:
+        color = (0, 0, 255)
+
+      confidence = str(round(confidence, 2))[2:]
+      cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 0, 0), 2, cv2.LINE_AA)
+      cv2.rectangle(frame, (x,y), (x+w, y+h), color, 1, cv2.LINE_AA)
+      cv2.putText(frame, f"{label} {confidence}%", (x, y-7), cv2.FONT_HERSHEY_PLAIN, 0.75, (0, 0, 0), 2, cv2.LINE_AA)
+      cv2.putText(frame, f"{label} {confidence}%", (x, y-7), cv2.FONT_HERSHEY_PLAIN, 0.75, color, 1, cv2.LINE_AA)
 
     object_counts: dict = {}
     for i in indices.flatten():
@@ -98,8 +108,9 @@ def perform_object_detection(frame, classes, net, yologger: YOLogger) -> tuple:
         object_counts[class_name] += 1
       else:
         object_counts[class_name] = 1
+    person_counted = object_counts.get('person', 0)
     object_counts_str: str = ' | '.join([f"{class_name}:{count}" for class_name, count in object_counts.items()])
-    is_update: bool = yologger.info(len(indices), f"Detected {len(indices)} objects; {object_counts_str}")
+    is_update: bool = yologger.info(person_counted, f"Detected {len(indices)} objects; {object_counts_str}")
 
   counted_obj: str = ''
   if is_update:

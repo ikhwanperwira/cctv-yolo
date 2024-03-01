@@ -63,11 +63,17 @@ def frame_collector(clients):  # Process 1
   is_writing = False
   try:
     while 1:
-      ret, frame = cap.read()
 
       current_time: float = time()
 
-      if cam_slct.is_device_changed(int(current_time) / cam_update_period):
+      try:
+        is_device_changed: bool = cam_slct.is_device_changed(int(current_time) / cam_update_period)
+      except ValueError:
+        print('Waiting camera device to be connected...')
+        sleep(3)
+        continue
+
+      if is_device_changed:
         cap.release()
         del cap
         cap: cv.VideoCapture = cam_slct.get_video_capture()
@@ -86,8 +92,8 @@ def frame_collector(clients):  # Process 1
 
       if len(counted_obj) > 0:
         timestamp = str(int(current_time))
-        filename = f"{timestamp}_{counted_obj}.jpg"
-        event_folder = os.getenv('EVENT_FOLDER', 'events')
+        filename: str = f"{timestamp}_{counted_obj}.jpg"
+        event_folder: str = os.getenv('EVENT_FOLDER', 'events')
         cv.imwrite(os.path.join(event_folder, filename), frame)
 
       if not is_writing:
