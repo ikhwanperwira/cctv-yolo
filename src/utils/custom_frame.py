@@ -8,7 +8,7 @@ Functions:
 """
 
 from time import localtime, strftime
-from typing import Any
+from typing import Any, Literal
 import cv2
 import numpy as np
 from dotenv import load_dotenv
@@ -88,18 +88,20 @@ def perform_object_detection(frame, classes, net, yologger: YOLogger) -> tuple:
       x, y, w, h = boxes[i]
       label: Any = classes[class_ids[i]].replace(' ','').upper()
       confidence = confidences[i]
-      if confidence < 0.5:
-        color = (0, 255, 0)
-      elif confidence < 0.75:
-        color = (0, 255, 255)
-      else:
-        color = (0, 0, 255)
-
+      # if confidence < 0.5:
+      #   color = (0, 255, 0)
+      # elif confidence < 0.75:
+      #   color = (0, 255, 255)
+      # else:
+      #   color = (0, 0, 255)
+      frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+      color: tuple[int, Literal[255], Literal[255]] = (int(confidence*60), 255, 255)
       confidence = str(round(confidence, 2))[2:]
       cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 0, 0), 2, cv2.LINE_AA)
       cv2.rectangle(frame, (x,y), (x+w, y+h), color, 1, cv2.LINE_AA)
       cv2.putText(frame, f"{label} {confidence}%", (x, y-7), cv2.FONT_HERSHEY_PLAIN, 0.75, (0, 0, 0), 2, cv2.LINE_AA)
       cv2.putText(frame, f"{label} {confidence}%", (x, y-7), cv2.FONT_HERSHEY_PLAIN, 0.75, color, 1, cv2.LINE_AA)
+      frame = cv2.cvtColor(frame, cv2.COLOR_HSV2BGR)
 
     object_counts: dict = {}
     for i in indices.flatten():
