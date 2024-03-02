@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Recent Events (1 Hour)</title>
+    <title>Recent Events</title>
 </head>
 <body>
-    <h1>Recent Events (1 Hour)</h1>
+    <h1>Recent Events (Last 1000 seconds)</h1>
     <ul>
         {% for file in files %}
         <li><a href="/events/{{ file }}">{{ file }}</a></li>

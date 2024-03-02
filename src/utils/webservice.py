@@ -27,6 +27,7 @@ def flask_service(clients): # Process 2
   from flask import Flask, Response
   from dotenv import load_dotenv
   from time import time
+  from glob import glob
   load_dotenv()
 
   app = Flask(__name__)
@@ -48,12 +49,10 @@ def flask_service(clients): # Process 2
   def download_file(filename=None):
     # If filename is None, list all files
     if filename is None:
-      current_time = time()
+      current_time = str(int(time()))
       # Get a list of all files in the static directory
-      files = os.listdir(STATIC_DIR)
-      # Filter files that were created less than 1 hour ago
-      filtered_files = [file for file in files if (current_time - os.path.getctime(os.path.join(STATIC_DIR, file))) < 3600]
-      return render_template('list_files.html', files=filtered_files)
+      files: list[str] = glob(f'{STATIC_DIR}/{current_time[:7]}*.jpg')
+      return render_template('list_files.html', files=files)
       # Otherwise, check if the file exists and allow download
     else:
       # Get the path of the file to be downloaded
