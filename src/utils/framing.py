@@ -31,8 +31,8 @@ def frame_collector(clients):  # Process 1
   #pylint: disable=import-outside-toplevel
   import os
   from time import time, sleep
-  import logging
-  import datetime
+  # import logging
+  # import datetime
   import io
   import cv2 as cv
   from dotenv import load_dotenv
@@ -42,15 +42,15 @@ def frame_collector(clients):  # Process 1
   from .custom_logger import YOLogger
   load_dotenv()
 
-  log_folder: str = os.getenv("LOG_FOLDER", 'logs')
-  if not os.path.exists(log_folder):
-    os.makedirs(log_folder)
+  # log_folder: str = os.getenv("LOG_FOLDER", 'logs')
+  # if not os.path.exists(log_folder):
+  #   os.makedirs(log_folder)
 
-  current_time: str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-  log_filename: str = f"{log_folder}/app_{current_time}.log"
+  # current_time: str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+  # log_filename: str = f"{log_folder}/app_{current_time}.log"
 
-  logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                      filename=log_filename, filemode='a')
+  # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+  #                     filename=log_filename, filemode='a')
 
   yologger = YOLogger()
 

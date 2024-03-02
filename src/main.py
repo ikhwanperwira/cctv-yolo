@@ -17,6 +17,21 @@ Dependencies:
 Author: Muhammad Ikhwan Perwira
 Date: 01/Mar/2024
 """
+import os
+import datetime
+import logging
+from dotenv import load_dotenv
+load_dotenv()
+
+log_folder: str = os.getenv("LOG_FOLDER", 'logs')
+if not os.path.exists(log_folder):
+  os.makedirs(log_folder)
+
+current_time: str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+log_filename: str = f"{log_folder}/app_{current_time}.log"
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    filename=log_filename, filemode='a')
 
 if __name__ == "__main__":
   from multiprocessing import Process, Manager

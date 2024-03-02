@@ -23,11 +23,11 @@ def flask_service(clients): # Process 2
   """
   #pylint: disable=import-outside-toplevel
   import os
-  from multiprocessing import Pipe
-  from flask import Flask, Response
-  from dotenv import load_dotenv
   from time import time
   from glob import glob
+  from dotenv import load_dotenv
+  from multiprocessing import Pipe
+  from flask import Flask, Response, request, render_template, send_file
   load_dotenv()
 
   app = Flask(__name__)
@@ -39,14 +39,13 @@ def flask_service(clients): # Process 2
     while True:
       yield b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + receiver.recv() + b'\r\n'
 
-  from flask import render_template, send_file
-
   # Define the directory where your static files are located
   STATIC_DIR: str = os.getenv('EVENT_FOLDER', 'events')
 
   @app.route('/events/<filename>')
   @app.route('/events/')
   def download_file(filename=None):
+    app.logger.info('/events: %s', dict(request.headers))
     # If filename is None, list all files
     if filename is None:
       current_time = str(int(time()))
@@ -64,8 +63,13 @@ def flask_service(clients): # Process 2
       else:
         return "File not found", 404
 
+  @app.route('/mjpeg')
+  def mjpeg():
+    return Response(frame_consumer(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
   @app.route('/')
   def root():
-    return Response(frame_consumer(),mimetype='multipart/x-mixed-replace; boundary=frame')
+    app.logger.info('/: %s', dict(request.headers))
+    return render_template('index.html')
 
   app.run(host=os.getenv('HOST', '127.0.0.1'), port=int(os.getenv('PORT', '5000')), threaded=True)

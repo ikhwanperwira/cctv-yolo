@@ -9,6 +9,7 @@ Example usage:
 """
 
 import logging
+from logging import Logger
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,7 +23,7 @@ class YOLogger:
     """
     Initializes the YOLogger object.
     """
-    self.logger = logging.getLogger(__name__)
+    self.logger: Logger = logging.getLogger(__class__.__name__)
     self.last_len = None
 
   def info(self, length, message):
