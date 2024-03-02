@@ -67,7 +67,7 @@ def perform_object_detection(frame, classes, net, yologger: YOLogger) -> tuple:
       scores: Any = detection[5:]
       class_id: np.intp = np.argmax(scores)
       confidence: Any = scores[class_id]
-      if confidence > 0.33:  # 33 adalah mAP yolov3-tiny
+      if confidence > 0.0:  # 33 adalah mAP yolov3-tiny
         center_x = int(detection[0] * frame.shape[1])
         center_y = int(detection[1] * frame.shape[0])
         width = int(detection[2] * frame.shape[1])
@@ -79,7 +79,7 @@ def perform_object_detection(frame, classes, net, yologger: YOLogger) -> tuple:
         boxes.append([left, top, width, height])
 
   # Apply non-maximum suppression
-  indices: Any = cv2.dnn.NMSBoxes(boxes, confidences, 0.2, 0.3)
+  indices: Any = cv2.dnn.NMSBoxes(boxes, confidences, 0.0, 0.0)
 
   # Draw bounding boxes and labels
   is_update: bool = False
