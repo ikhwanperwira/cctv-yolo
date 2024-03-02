@@ -42,7 +42,7 @@ def flask_service(clients): # Process 2
   from flask import render_template, send_file
 
   # Define the directory where your static files are located
-  STATIC_DIR = os.getenv('EVENT_FOLDER', 'events')
+  STATIC_DIR: str = os.getenv('EVENT_FOLDER', 'events')
 
   @app.route('/events/<filename>')
   @app.route('/events/')
@@ -56,7 +56,7 @@ def flask_service(clients): # Process 2
       # Otherwise, check if the file exists and allow download
     else:
       # Get the path of the file to be downloaded
-      filepath = os.path.join(STATIC_DIR, filename)
+      filepath: str = os.path.join(STATIC_DIR, filename)
       # Check if the file exists
       if os.path.exists(filepath):
         # Send the file to the user for download
