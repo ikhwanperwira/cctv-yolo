@@ -26,6 +26,7 @@ def flask_service(clients): # Process 2
   from multiprocessing import Pipe
   from flask import Flask, Response
   from dotenv import load_dotenv
+  from time import time
   load_dotenv()
 
   app = Flask(__name__)
@@ -47,11 +48,13 @@ def flask_service(clients): # Process 2
   def download_file(filename=None):
     # If filename is None, list all files
     if filename is None:
+      current_time = time()
       # Get a list of all files in the static directory
       files = os.listdir(STATIC_DIR)
-      # Render a template to display the list of files
-      return render_template('list_files.html', files=files)
-    # Otherwise, check if the file exists and allow download
+      # Filter files that were created less than 1 hour ago
+      filtered_files = [file for file in files if (current_time - os.path.getctime(os.path.join(STATIC_DIR, file))) < 3600]
+      return render_template('list_files.html', files=filtered_files)
+      # Otherwise, check if the file exists and allow download
     else:
       # Get the path of the file to be downloaded
       filepath = os.path.join(STATIC_DIR, filename)
