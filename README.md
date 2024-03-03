@@ -18,7 +18,7 @@ Before using CCTV YOLO, ensure you have the following in `requirements.txt`
 
 ### Installation
 
-To install the Deepcare API SDK, follow these steps:
+To install the CCTV YOLO, follow these steps:
 
 1. **Create a Virtual Environment:**
 
