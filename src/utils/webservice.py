@@ -50,7 +50,7 @@ def flask_service(clients): # Process 2
     if filename is None:
       current_time = str(int(time()))
       # Get a list of all files in the static directory
-      files: list[str] = glob(f'{STATIC_DIR}/{current_time[:7]}*.jpg')
+      files: list[str] = glob(f'{STATIC_DIR}/{current_time[:5]}*.jpg')
       return render_template('list_files.html', files=files)
       # Otherwise, check if the file exists and allow download
     else:
