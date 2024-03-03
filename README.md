@@ -1,6 +1,7 @@
 # CCTV YOLO
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/python-%E2%89%A5%203.9.5-blue)](https://www.python.org/downloads/release/python-395/)
 
 ## Introduction
 
@@ -14,7 +15,7 @@ To get started with CCTV YOLO, follow these steps:
 
 ### Prerequisites
 
-Before using CCTV YOLO, ensure you have the following in `requirements.txt`
+Before using CCTV YOLO, ensure you have the following in `requirements.txt` and `Python ≥ 3.9.5`.
 
 ### Installation
 
