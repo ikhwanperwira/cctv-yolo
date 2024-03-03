@@ -7,7 +7,7 @@
 
 Welcome to the CCTV YOLO! This project offers realtime object detection through HTTP protocol and cloudflare tunneling:
 
-These predictions are based on `yolov3-tiny` trained on comprehensive coco datasets.
+These predictions are based on `yolov3-tiny` trained on comprehensive **coco datasets**.
 
 ## Getting Started
 
